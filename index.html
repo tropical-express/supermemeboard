@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Meme Soundboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+  background:#000;
+  color:#fff;
+  font-family:Arial, sans-serif;
+  text-align:center;
+  padding:20px;
+}
+
+h1 { margin-bottom: 5px; }
+p { color:#aaa; }
+
+.controls {
+  max-width: 900px;
+  margin: 20px auto;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+input, select, button {
+  padding: 10px 14px;
+  font-size: 14px;
+  background: #111;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+button:hover {
+  background:#222;
+  cursor:pointer;
+}
+
+.buttons {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px;
+  max-width:1000px;
+  margin:30px auto;
+}
+
+a.sound-btn {
+  background:#1e90ff;
+  color:#fff;
+  padding:14px;
+  border-radius:6px;
+  text-decoration:none;
+  font-size:15px;
+}
+
+a.sound-btn:hover {
+  background:#187bcd;
+}
+
+.card {
+  background:#111;
+  padding:15px;
+  border-radius:6px;
+  border:1px solid #222;
+  max-width:520px;
+  margin:25px auto;
+}
+
+iframe {
+  width:100%;
+  height:70px;
+  border:none;
+}
+
+.hidden { display:none; }
+
+.small {
+  font-size:12px;
+  color:#666;
+  margin-top:40px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🔊 Meme Soundboard</h1>
+<p>Search, filter, or hit random</p>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <input type="text" id="search" placeholder="Search sounds…" oninput="filterSounds()">
+  <select id="category" onchange="filterSounds()">
+    <option value="all">All</option>
+    <option value="meme">Meme</option>
+    <option value="cartoon">Cartoon</option>
+    <option value="sound">Sound Effect</option>
+  </select>
+  <button onclick="playRandom()">🎲 Random</button>
+</div>
+
+<!-- LANDING PAGE BUTTONS -->
+<div class="buttons" id="buttons">
+  <a class="sound-btn meme" href="#vine-boom">Vine Boom</a>
+  <a class="sound-btn meme" href="#metal-pipe">Metal Pipe</a>
+  <a class="sound-btn cartoon" href="#spongebob-fail">Spongebob Fail</a>
+  <a class="sound-btn meme" href="#fart">Fart</a>
+  <a class="sound-btn meme" href="#baby-laugh">Baby Laugh</a>
+  <a class="sound-btn sound" href="#sad-meow">Sad Meow</a>
+</div>
+
+<!-- SOUNDS -->
+<div class="card meme" id="vine-boom">
+  <h3>Vine Boom</h3>
+  <iframe src="https://www.myinstants.com/instant/vine-boom-sound-70972/embed/"></iframe>
+</div>
+
+<div class="card meme" id="metal-pipe">
+  <h3>Metal Pipe</h3>
+  <iframe src="https://www.myinstants.com/instant/metal-pipe-clang-80894/embed/"></iframe>
+</div>
+
+<div class="card cartoon" id="spongebob-fail">
+  <h3>Spongebob Fail</h3>
+  <iframe src="https://www.myinstants.com/instant/spongebob-fail-11236/embed/"></iframe>
+</div>
+
+<div class="card meme" id="fart">
+  <h3>Fart</h3>
+  <iframe src="https://www.myinstants.com/instant/fart/embed/"></iframe>
+</div>
+
+<div class="card meme" id="baby-laugh">
+  <h3>Baby Laugh</h3>
+  <iframe src="https://www.myinstants.com/instant/baby-laughing-meme-56428/embed/"></iframe>
+</div>
+
+<div class="card sound" id="sad-meow">
+  <h3>Sad Meow</h3>
+  <iframe src="https://www.myinstants.com/instant/sad-meow-song-88771/embed/"></iframe>
+</div>
+
+<p class="small">
+Sounds embedded from MyInstants.com — all rights belong to original owners.
+</p>
+
+<script>
+function filterSounds() {
+  const search = document.getElementById("search").value.toLowerCase();
+  const category = document.getElementById("category").value;
+
+  document.querySelectorAll(".sound-btn, .card").forEach(el => {
+    const textMatch = el.textContent.toLowerCase().includes(search);
+    const catMatch = category === "all" || el.classList.contains(category);
+    el.classList.toggle("hidden", !(textMatch && catMatch));
+  });
+}
+
+function playRandom() {
+  const visibleCards = Array.from(document.querySelectorAll(".card"))
+    .filter(c => !c.classList.contains("hidden"));
+
+  if (visibleCards.length === 0) return;
+
+  const pick = visibleCards[Math.floor(Math.random() * visibleCards.length)];
+  pick.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+</script>
+
+</body>
+</html>
